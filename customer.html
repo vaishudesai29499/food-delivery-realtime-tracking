@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Live Tracking</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 25px;
+            background: #f5f7fb;
+        }
+
+        h2 { color: #222; }
+
+        button {
+            padding: 12px 20px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        #status { margin: 15px 0; font-weight: bold; }
+
+        #locations {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Food Delivery - Live Driver Tracking</h2>
+
+    <button onclick="connectTracking()">Connect Customer</button>
+
+    <p id="status">Status: Disconnected</p>
+
+    <h3>Driver GPS Updates</h3>
+    <div id="locations">Waiting for driver location...</div>
+
+    <script>
+        let ws;
+
+        function connectTracking() {
+            ws = new WebSocket(
+                "ws://localhost:8000/ws/orders/order-1/tracking?token=customer-demo-token"
+            );
+
+            ws.onopen = () => {
+                document.getElementById("status").innerText =
+                    "Status: Customer Connected";
+            };
+
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+
+                document.getElementById("locations").innerText +=
+                    "\n\n" + JSON.stringify(data, null, 2);
+            };
+
+            ws.onerror = (error) => {
+                document.getElementById("status").innerText =
+                    "Status: WebSocket Error";
+                console.error(error);
+            };
+
+            ws.onclose = () => {
+                document.getElementById("status").innerText =
+                    "Status: Disconnected";
+            };
+        }
+    </script>
+
+</body>
+</html>
