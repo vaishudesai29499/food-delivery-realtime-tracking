@@ -2,7 +2,7 @@
 
 A runnable real-time driver tracking demo built using **Python, FastAPI, WebSockets, Redis Pub/Sub, and simulated GPS coordinates**.
 
-The project demonstrates how a food delivery application can receive driver GPS updates, process and store the latest location, and stream real-time location events to customers.
+The project demonstrates how a food delivery application can receive driver GPS updates, process and store the latest location, and stream real-time location events to customers. 
 
 ## Project Overview
 
